@@ -69,8 +69,9 @@ const customCallout3 = {
   latitude: 23.095994,
   longitude: 113.325520,
   iconPath: '/images/location.png',
+  mytext: 'hahahhaa',
   callout: {
-    content: '文本内容333',
+    content: '当前选择',
     color: '#ff0000',
     fontSize: 14,
     borderWidth: 2,
@@ -87,29 +88,15 @@ const allMarkers = [normalCallout, customCallout1, customCallout2, customCallout
 
 Page({
   data: {
+    // 当前位置
     latitude: 23.096994,
     longitude: 113.324520,
-    markers: [],
-    customCalloutMarkerIds: [],
-    num: 1
+    // 标记点
+    markers: allMarkers,
+    scanCodeMsg:''
   },
   onReady: function (e) {
     this.mapCtx = wx.createMapContext('myMap')
-  },
-
-  addMarker() {
-    const markers = allMarkers
-    this.setData({
-      markers,
-      customCalloutMarkerIds: [2,3,4],
-    })
-  },
-
-  removeMarker() {
-    this.setData({
-      markers: [],
-      customCalloutMarkerIds: []
-    })
   },
 
   markertap(e) {
@@ -118,32 +105,54 @@ Page({
   callouttap(e) {
     console.log('@@@ callouttap', e)
   },
-  labeltap(e) {
-    console.log('@@@ labeltap', e)
-  },
-  translateMarker: function () {
-    const length = this.data.markers.length
-    if (length === 0) return
 
-    const index = Math.floor(Math.random() * length)
-    const markers = this.data.markers
-    const marker = markers[index]
-    marker.latitude = marker.latitude + 0.002
-    marker.longitude = marker.longitude + 0.002
-    const that = this
-    this.mapCtx.translateMarker({
-      markerId: marker.id,
-      duration: 1000,
-      destination: {
-        latitude: marker.latitude,
-        longitude: marker.longitude
+  test() {
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success(res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        console.log('resssssssssssssss', res)
+        const MapContext = wx.createMapContext('myMap')
+        console.log('mapobjjjjjjjjjjjjjj', MapContext)
+        MapContext.openMapApp({
+          // latitude,
+          latitude: 23.15463,
+          // longitude,
+          longitude: 113.46199,
+          destination: '显贵照明'
+        })
+        // wx.openLocation({
+        //   // latitude,
+        //   latitude:23.15463,
+        //   // longitude,
+        //   longitude:113.46199,
+        //   scale: 18
+        // })
+      }
+    })
+  },
+  testScan() {
+    let _this = this
+    wx.scanCode({
+      // 只允许从相机扫码
+      onlyFromCamera: true,
+      //扫描成功回调函数
+      success(res) {
+        console.log(res)
+        _this.setData({
+          scanCodeMsg: JSON.stringify(res)
+        });
+        wx.showToast({
+          title: '成功',
+          duration: 1000
+        })
       },
-      animationEnd() {
-        that.setData({markers})
-        console.log('animation end')
-      },
-      complete(res) {
-        console.log('translateMarker', res)
+      // 扫码失败
+      fail(err) {
+        _this.setData({
+          scanCodeMsg: JSON.stringify(err)
+        });
       }
     })
   }
