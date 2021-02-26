@@ -1,118 +1,150 @@
-//index.js
-const app = getApp()
+const normalCallout = {
+  id: 1,
+  latitude: 23.098994,
+  longitude: 113.322520,
+  iconPath: '/images/location.png',
+  callout: {
+    content: '文本内容000',
+    color: '#ff0000',
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#000000',
+    bgColor: '#fff',
+    padding: 5,
+    display: 'BYCLICK',
+    textAlign: 'center'
+  },
+  // label: {
+  //   content: 'label 文本',
+  //   fontSize: 24,
+  //   textAlign: 'center',
+  //   borderWidth: 1,
+  //   borderRadius: 5,
+  //   bgColor: '#fff',
+  //   padding: 5
+  // }
+}
+
+const customCallout1 = {
+  id: 2,
+  latitude: 23.097994,
+  longitude: 113.323520,
+  iconPath: '/images/location.png',
+  callout: {
+    content: '文本内容111',
+    color: '#ff0000',
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#000000',
+    bgColor: '#fff',
+    padding: 5,
+    display: 'BYCLICK',
+    textAlign: 'center'
+  },
+}
+
+const customCallout2 = {
+  id: 3,
+  latitude: 23.096994,
+  longitude: 113.324520,
+  iconPath: '/images/location.png',
+  callout: {
+    content: '文本内容222',
+    color: '#ff0000',
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#000000',
+    bgColor: '#fff',
+    padding: 5,
+    display: 'BYCLICK',
+    textAlign: 'center'
+  },
+}
+
+const customCallout3 = {
+  id: 4,
+  latitude: 23.095994,
+  longitude: 113.325520,
+  iconPath: '/images/location.png',
+  callout: {
+    content: '文本内容333',
+    color: '#ff0000',
+    fontSize: 14,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#000000',
+    bgColor: '#fff',
+    padding: 5,
+    display: 'BYCLICK',
+    textAlign: 'center'
+  },
+}
+
+const allMarkers = [normalCallout, customCallout1, customCallout2, customCallout3]
 
 Page({
   data: {
-    avatarUrl: './user-unlogin.png',
-    userInfo: {},
-    logged: false,
-    takeSession: false,
-    requestResult: ''
+    latitude: 23.096994,
+    longitude: 113.324520,
+    markers: [],
+    customCalloutMarkerIds: [],
+    num: 1
+  },
+  onReady: function (e) {
+    this.mapCtx = wx.createMapContext('myMap')
   },
 
-  onLoad: function() {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
-
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
-          })
-        }
-      }
+  addMarker() {
+    const markers = allMarkers
+    this.setData({
+      markers,
+      customCalloutMarkerIds: [2,3,4],
     })
   },
 
-  onGetUserInfo: function(e) {
-    if (!this.data.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
+  removeMarker() {
+    this.setData({
+      markers: [],
+      customCalloutMarkerIds: []
+    })
   },
 
-  onGetOpenid: function() {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
-        })
+  markertap(e) {
+    console.log('@@@ markertap', e)
+  },
+  callouttap(e) {
+    console.log('@@@ callouttap', e)
+  },
+  labeltap(e) {
+    console.log('@@@ labeltap', e)
+  },
+  translateMarker: function () {
+    const length = this.data.markers.length
+    if (length === 0) return
+
+    const index = Math.floor(Math.random() * length)
+    const markers = this.data.markers
+    const marker = markers[index]
+    marker.latitude = marker.latitude + 0.002
+    marker.longitude = marker.longitude + 0.002
+    const that = this
+    this.mapCtx.translateMarker({
+      markerId: marker.id,
+      duration: 1000,
+      destination: {
+        latitude: marker.latitude,
+        longitude: marker.longitude
       },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
-      }
-    })
-  },
-
-  // 上传图片
-  doUpload: function () {
-    // 选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        wx.showLoading({
-          title: '上传中',
-        })
-
-        const filePath = res.tempFilePaths[0]
-        
-        // 上传图片
-        const cloudPath = `my-image${filePath.match(/\.[^.]+?$/)[0]}`
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-
-            app.globalData.fileID = res.fileID
-            app.globalData.cloudPath = cloudPath
-            app.globalData.imagePath = filePath
-            
-            wx.navigateTo({
-              url: '../storageConsole/storageConsole'
-            })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
+      animationEnd() {
+        that.setData({markers})
+        console.log('animation end')
       },
-      fail: e => {
-        console.error(e)
+      complete(res) {
+        console.log('translateMarker', res)
       }
     })
-  },
-
+  }
 })
