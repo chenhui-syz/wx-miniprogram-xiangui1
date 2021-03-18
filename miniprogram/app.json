@@ -1,19 +1,22 @@
 {
-  "pages": [
-    "pages/index/index"
-  ],
-  "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "蚁小爱驿站",
-    "navigationBarTextStyle": "black"
-  },
-  "sitemapLocation": "sitemap.json",
-  "style": "v2"  ,
-  "permission": {
-    "scope.userLocation": {
-    "desc": "你的位置信息将用于小程序位置接口的效果展示"
-    }
-  }
+	"pages": [
+		"pages/index/index",
+		"pages/recovery/recovery",
+		"pages/myinfo/myinfo",
+		"pages/switchcity/switchcity"
+	],
+	"window": {
+		"backgroundColor": "#F6F6F6",
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#F6F6F6",
+		"navigationBarTitleText": "蚁小爱驿站",
+		"navigationBarTextStyle": "black"
+	},
+	"sitemapLocation": "sitemap.json",
+	"style": "v2",
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于小程序位置接口的效果展示"
+		}
+	}
 }

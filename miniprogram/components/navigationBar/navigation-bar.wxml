@@ -1,0 +1,12 @@
+<!--components/navigationBar/navigation-bar.wxml-->
+<view class="nav-bar" style="height:{{navBarHeight}}px;">
+	<input class="search" placeholder="输入关键词！" style="height:{{menuHeight-5}}px; min-height:{{menuHeight-5}}px; line-height:{{menuHeight}}px; left:{{menuRight+80}}px; bottom:{{menuBotton}}px;"></input>
+	<view class="choose-city"><navigator url="../../pages/city/city">城市选择</navigator></view>
+
+</view>
+
+<!-- 
+    内容区域：
+    自定义顶部栏用的fixed定位，会遮盖到下面内容，设置好间距,标签内不要放任何内容
+-->
+<view class="content" style="margin-top:{{navBarHeight}}px;"></view>

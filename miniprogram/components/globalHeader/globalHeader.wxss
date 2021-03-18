@@ -1,0 +1,28 @@
+/* components/globalHeader.wxss */
+.header-page-container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 65px;
+	background-color: red;
+}
+
+.header-wrapper {
+	display: flex;
+}
+
+.header-left {
+	flex: 1;
+	text-align: center;
+}
+
+.header-scan {
+	flex: 1;
+	text-align: center;
+}
+
+.header-right {
+	flex: 1;
+	text-align: center;
+}

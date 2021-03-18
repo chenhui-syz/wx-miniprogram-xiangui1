@@ -1,10 +1,10 @@
 <!--index.wxml-->
 <view class="index-page-container">
-	<map id="myMap" style="width: 100%; height: 100%;" latitude="{{latitude}}" longitude="{{longitude}}" bindmarkertap="markertap" bindcallouttap="callouttap" markers="{{markers}}" scale="16">
-	</map>
+	<navigation-bar default-data="{{defaultData}}"></navigation-bar>
+	<!-- <map id="myMap" style="width: 100%; height: 100%;" latitude="{{latitude}}" longitude="{{longitude}}" bindmarkertap="markertap" bindcallouttap="callouttap" markers="{{markers}}" scale="16">
+	</map> -->
 	<view class="top">
-		<view bindtap="test">模拟点击“要去的驿站”</view>
-		<view bindtap="testScan">模拟点击“扫码”</view>
-		<view>{{scanCodeMsg}}</view>
+		<!-- <view bindtap="test">模拟点击“要去的驿站”</view> -->
 	</view>
+	<glabal-header></glabal-header>
 </view>

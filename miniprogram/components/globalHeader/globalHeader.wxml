@@ -1,0 +1,8 @@
+<!--components/globalHeader.wxml-->
+<view class="header-page-container">
+	<view class="header-wrapper">
+		<view class="header-left"><navigator url="../../pages/recovery/recovery">回收</navigator></view>
+		<view bindtap="scan" class="header-scan">扫码投放</view>
+		<view class="header-right"><navigator url="../../pages/myinfo/myinfo">我的</navigator></view>
+	</view>
+</view>

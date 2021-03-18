@@ -93,7 +93,12 @@ Page({
     longitude: 113.324520,
     // 标记点
     markers: allMarkers,
-    scanCodeMsg:''
+
+
+    // 组件参数设置，传递到组件
+    defaultData: {
+      title: "我的主页", // 导航栏标题
+    }
   },
   onReady: function (e) {
     this.mapCtx = wx.createMapContext('myMap')
@@ -132,28 +137,4 @@ Page({
       }
     })
   },
-  testScan() {
-    let _this = this
-    wx.scanCode({
-      // 只允许从相机扫码
-      onlyFromCamera: true,
-      //扫描成功回调函数
-      success(res) {
-        console.log(res)
-        _this.setData({
-          scanCodeMsg: JSON.stringify(res)
-        });
-        wx.showToast({
-          title: '成功',
-          duration: 1000
-        })
-      },
-      // 扫码失败
-      fail(err) {
-        _this.setData({
-          scanCodeMsg: JSON.stringify(err)
-        });
-      }
-    })
-  }
 })

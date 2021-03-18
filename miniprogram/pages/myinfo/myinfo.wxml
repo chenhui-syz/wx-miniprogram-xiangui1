@@ -1,0 +1,33 @@
+<!--miniprogram/pages/myinfo/myinfo.wxml-->
+<view class="myinfo-page-container">
+	<view class="user-wrapper">
+		<view class="user-header">
+			<view class="user-header-left">
+				<view class="avator">IMG</view>
+				<view class="name">Mark</view>
+			</view>
+			<view class="user-header-right">
+				<view class="email">e</view>
+				<view class="set">s</view>
+			</view>
+		</view>
+		<view class="user-detail">
+			<view class="fav-num">
+				<view>156</view>
+				<view>可用积分</view>
+			</view>
+			<view class="coupon">
+				<view>4</view>
+				<view>优惠券</view>
+			</view>
+		</view>
+	</view>
+	<view class="operator-wrapper">
+		<view>积分明细</view>
+		<view>我的收藏</view>
+		<view>投放记录</view>
+		<view>联系我们</view>
+		<view>帮助中心</view>
+		<view>关于我们</view>
+	</view>
+</view>
